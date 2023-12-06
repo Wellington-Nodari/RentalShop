@@ -1,11 +1,16 @@
 package rentalShop;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
 public class Transaction implements Rent {
 
     private int transactionId;
     private String transctionDate;
     private String returnDate;
     private double priceToPay;
+    private boolean isOpen;
 
     public int getTransactionId() {
         return transactionId;
@@ -23,6 +28,10 @@ public class Transaction implements Rent {
         return priceToPay;
     }
 
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
@@ -37,6 +46,10 @@ public class Transaction implements Rent {
 
     public void setPriceToPay(double priceToPay) {
         this.priceToPay = priceToPay;
+    }
+
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 
     public void reserveMovie(Customer customer, Movie movie) {
@@ -57,27 +70,39 @@ public class Transaction implements Rent {
 
     @Override
     public void rent(Customer customer, Movie movie, String date) {
-        Transaction rentTransaction = new Transaction();
+
         if (movie.getIsAvailable()) {
-            rentTransaction.setTransactionId(1);
-            rentTransaction.setTransctionDate("2023-12-06");
-            rentTransaction.setReturnDate("2023-12-09");
+            this.setTransactionId(1);
+            this.setTransctionDate("2023-12-06");
+            this.setReturnDate("2023-12-09");
+            this.setIsOpen(true);
             movie.setIsAvailable(false);
             String lb = movie.getLabel();
             if(lb.equals("A")){
-                rentTransaction.setPriceToPay(5.99);
+                this.setPriceToPay(5.99);
             } else {
-                rentTransaction.setPriceToPay(3.99);
+                this.setPriceToPay(3.99);
             }
-            System.out.printf("The movie %s%n is rented on %s%n for the customer %s%n", movie.getMovieName(), rentTransaction.getTransctionDate(), customer.getCustomerName());
-            System.out.printf("This movie is label %s%n and the total owned is € %s%n", movie.getLabel(), rentTransaction.getPriceToPay());
+            System.out.printf("The movie %s%n is rented on %s%n for the customer %s%n", movie.getMovieName(), this.getTransctionDate(), customer.getCustomerName());
+            System.out.printf("This movie is label %s%n and the total owned is € %s%n", movie.getLabel(), this.getPriceToPay());
         } else {
             System.out.println("The movie is not available");
         }
     }
 
     @Override
-    public void rentReturn(Transaction id, String date, Movie movie, Customer customer) {
+    public void rentReturn(int id, String date, Movie movie, Customer customer) {
+        LocalDate todayDate = LocalDate.parse(date);
+        LocalDate returnDate = LocalDate.parse(this.getReturnDate());
 
+        if(todayDate.isBefore(returnDate) || todayDate.isEqual(returnDate)) {
+            System.out.printf("The movie is returned without delays the total to pay is €%s%n. \n Thank you!", this.getPriceToPay());
+        } else {
+            long daysDelayed = Math.abs(ChronoUnit.DAYS.between(returnDate, todayDate));
+            double newPrice2Pay = this.priceToPay + ((double) daysDelayed);
+            System.out.printf("The movie was returned %s%n day(s) delayed, the total to pay is €%s%n \n Thank you!", daysDelayed, newPrice2Pay);
+        }
+        this.setIsOpen(false);
+        movie.setIsAvailable(true);
     }
 }

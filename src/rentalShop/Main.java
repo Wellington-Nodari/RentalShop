@@ -16,7 +16,7 @@ public class Main {
 
         Customer cust1 = new Customer();
         cust1.setCustomerName("Dan Brown");
-        cust1.setAccNumb(1);
+        cust1.setAccNumb(123);
 
         Transaction transaction = new Transaction();
 
@@ -25,6 +25,10 @@ public class Main {
 //        System.out.println(movie1.getIsAvailable());
 
         transaction.rent(cust1, movie1, "2023-12-06");
+
+        System.out.println("------------- RETURN -------------");
+
+        transaction.rentReturn(1, "2023-12-10", movie1, cust1);
 
     }
 
