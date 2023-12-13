@@ -1,16 +1,26 @@
-package rentalShop;
+package com.nodari.rentalshop.service;
 
-public abstract class Movie implements IMovie {
+public abstract class Movie {
 
     private String movieName;
     private String gender;
     private String director;
     private String language;
-    private int movieLength;
+    private double movieLength;
     private boolean isAwarded;
     private String label;
     private boolean isAvailable;
 
+    public Movie(String movieName, String gender, String director, String language, double movieLength, boolean isAwarded, String label, boolean isAvailable) {
+        this.movieName = movieName;
+        this.gender = gender;
+        this.director = director;
+        this.language = language;
+        this.movieLength = movieLength;
+        this.isAwarded = isAwarded;
+        this.label =label;
+        this.isAvailable = isAvailable;
+    }
 
     public String getMovieName() {
         return movieName;
@@ -28,7 +38,7 @@ public abstract class Movie implements IMovie {
         return language;
     }
 
-    public int getMovieLength() {
+    public double getMovieLength() {
         return movieLength;
     }
 

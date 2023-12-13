@@ -1,8 +1,9 @@
-package rentalShop;
+package com.nodari.rentalshop.service;
+
+import com.nodari.rentalshop.controller.Rent;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 public class Transaction implements Rent {
 
@@ -56,8 +57,6 @@ public class Transaction implements Rent {
         if(!movie.getIsAvailable()) {
             setTransactionId(1);
             setTransctionDate("2023-12-06");
-//            String cx = ((String) customer.getCustomerName());
-//            String mv = ((String) movie.getMovieName());
             movie.setIsAvailable(false);
 
             System.out.println("The movie has been reserved");
@@ -65,8 +64,6 @@ public class Transaction implements Rent {
             System.out.println("The movie is available for renting right now");
         }
     }
-
-
 
     @Override
     public void rent(Customer customer, Movie movie, String date) {
@@ -100,7 +97,7 @@ public class Transaction implements Rent {
         } else {
             long daysDelayed = Math.abs(ChronoUnit.DAYS.between(returnDate, todayDate));
             double newPrice2Pay = this.priceToPay + ((double) daysDelayed);
-            System.out.printf("The movie was returned %s%n day(s) delayed, the total to pay is €%s%n \n Thank you!", daysDelayed, newPrice2Pay);
+            System.out.printf("The movie was returned %s%n day(s) delayed, the total to pay is €%s%n \n Thank you! \n", daysDelayed, newPrice2Pay);
         }
         this.setIsOpen(false);
         movie.setIsAvailable(true);

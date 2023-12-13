@@ -1,4 +1,8 @@
-package rentalShop;
+package com.nodari.rentalshop.controller;
+
+import com.nodari.rentalshop.service.Customer;
+import com.nodari.rentalshop.service.Movie;
+import com.nodari.rentalshop.service.Transaction;
 
 import java.util.List;
 
